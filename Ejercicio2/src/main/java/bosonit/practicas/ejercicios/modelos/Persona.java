@@ -1,4 +1,4 @@
-package bosonit.practicas.ejercicios.bosonit.practicas.ejercicios.modelos;
+package bosonit.practicas.ejercicios.modelos;
 
 public class Persona {
 

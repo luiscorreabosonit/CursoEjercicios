@@ -1,4 +1,4 @@
-package bosonit.practicas.ejercicios;
+package bosonit.practicas.ejercicios.app;
 
 import bosonit.practicas.ejercicios.modelos.Persona;
 
@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class Main {
+public class App {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         List<Persona> personas = new ArrayList<>();
 
@@ -21,7 +21,7 @@ public class Main {
 
         try {
 
-            archivo = new File ("ficheroEjercicio1.txt");
+            archivo = new File ("C:\\Users\\luis.correa\\Desktop\\EjerciciosCurso\\CursoEjercicios\\Ejercicio2\\src\\main\\resources\\ficheroEjercicio2.txt");
             fileReader = new FileReader (archivo);
             bufferedReader = new BufferedReader(fileReader);
 
@@ -56,12 +56,14 @@ public class Main {
         }
 
         personas.stream().filter(persona -> persona.getEdad() < 25 && persona.getEdad() > 0)
-                         .map(persona ->
-                             "Nombre: " + persona.getNombre() +
-                             ". Poblacion: " + persona.getPoblacion() +
-                             ". Edad: " + persona.getEdad()
-                         )
-                            .forEach(System.out::println);
+                .map(persona ->
+                        "Nombre: " + persona.getNombre() +
+                                ". Poblacion: " + persona.getPoblacion() +
+                                ". Edad: " + persona.getEdad()
+                )
+                .forEach(System.out::println);
+
+
 
     }
 }
