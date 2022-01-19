@@ -16,14 +16,14 @@ public class Main {
         List<Persona> personas = new ArrayList<>();
 
         File archivo = null;
-        FileReader fileReaderr = null;
+        FileReader fileReader = null;
         BufferedReader bufferedReader = null;
 
         try {
 
             archivo = new File ("ficheroEjercicio1.txt");
-            fileReaderr = new FileReader (archivo);
-            bufferedReader = new BufferedReader(fileReaderr);
+            fileReader = new FileReader (archivo);
+            bufferedReader = new BufferedReader(fileReader);
 
             String linea;
             while((linea=bufferedReader.readLine())!=null) {
@@ -40,7 +40,7 @@ public class Main {
                 if(partes.length > cont + 1 && partes [cont + 1] != "") poblacion = Optional.ofNullable(partes[1]);
                 if(partes.length > cont + 2 && partes[cont + 2] != "") edad = Optional.of(Integer.parseInt(partes[2]));
 
-                personas.add(new Persona(nombre.orElse("Desconocido"), poblacion.orElse("Desconocida"), edad.orElse(-1)));
+                personas.add(new Persona(nombre.get(), poblacion.get(), edad.get()));
 
             }
         }
@@ -49,8 +49,8 @@ public class Main {
         }finally{
 
             try{
-                if( null != fileReaderr ){
-                    fileReaderr.close();
+                if( null != fileReader ){
+                    fileReader.close();
                 }
             }catch (Exception e2){
                 e2.printStackTrace();
