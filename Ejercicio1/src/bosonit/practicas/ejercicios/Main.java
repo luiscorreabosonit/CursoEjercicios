@@ -28,19 +28,17 @@ public class Main {
             String linea;
             while((linea=bufferedReader.readLine())!=null) {
 
-                Optional<String> nombre = Optional.ofNullable("Desconocido");
-                Optional<String> poblacion = Optional.ofNullable("Desconocido");
-                Optional<Integer> edad = Optional.ofNullable(-1);
+                Optional<String> nombre = Optional.empty();;
+                Optional<String> poblacion = Optional.empty();;
+                Optional<Integer> edad = Optional.empty();;
 
                 String[] partes = linea.split(":");
 
-                int cont = 0;
+                if(partes.length > 0 && partes [0] != "") nombre = Optional.ofNullable(partes[0]);
+                if(partes.length > 1 && partes [1] != "") poblacion = Optional.ofNullable(partes[1]);
+                if(partes.length > 2 && partes[2] != "") edad = Optional.of(Integer.parseInt(partes[2]));
 
-                if(partes.length > cont && partes [cont] != "") nombre = Optional.ofNullable(partes[0]);
-                if(partes.length > cont + 1 && partes [cont + 1] != "") poblacion = Optional.ofNullable(partes[1]);
-                if(partes.length > cont + 2 && partes[cont + 2] != "") edad = Optional.of(Integer.parseInt(partes[2]));
-
-                personas.add(new Persona(nombre.get(), poblacion.get(), edad.get()));
+                personas.add(new Persona(nombre.orElse("Desconocido"), poblacion.orElse("Desconocida"), edad.orElse(-1)));
 
             }
         }
