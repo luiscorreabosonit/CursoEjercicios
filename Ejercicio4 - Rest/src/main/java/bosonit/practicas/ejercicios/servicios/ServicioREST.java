@@ -41,6 +41,23 @@ public class ServicioREST {
         }
     }
 
+    public Boolean actualizarPersona(int id, Persona persona){
+
+        if(personas.size()>id) {
+
+            Persona busqueda = personas.get(id);
+            if(persona.getNombre()!=null) busqueda.setNombre(persona.getNombre());
+            if(persona.getEdad()!=0) busqueda.setEdad(persona.getEdad());
+            if(persona.getPoblacion()!=null) busqueda.setPoblacion(persona.getPoblacion());
+            personas.add(id, busqueda);
+
+            return true;
+        }else {
+            return false;
+        }
+
+    }
+
     public Boolean borrarPersonaId(int id){
         if(personas.size()>id) {
             personas.remove(id);

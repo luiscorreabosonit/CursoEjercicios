@@ -6,7 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication(scanBasePackages = {
 		"bosonit.practicas.ejercicios.controladores",
 		"bosonit.practicas.ejercicios.CRUD",
-		"bosonit.practicas.ejercicios.servicios"
+		"bosonit.practicas.ejercicios.servicios",
+		"bosonit.practicas.ejercicios.configuracion"
 
 })
 public class RestApplication {
