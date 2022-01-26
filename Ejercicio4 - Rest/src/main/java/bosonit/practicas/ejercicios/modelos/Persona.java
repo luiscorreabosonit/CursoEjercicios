@@ -14,22 +14,5 @@ public class Persona {
     private String nombre;
     private String poblacion;
     private int edad;
-
-    @Bean
-    @Qualifier("bean1")
-    public void bean1(){
-        setNombre("bean1");
-    }
-
-    @Bean
-    @Qualifier("bean2")
-    public void bean2(){
-        setNombre("bean2");
-    }
-
-    @Bean
-    @Qualifier("bean3")
-    public void bean3(){
-        setNombre("bean3");
-    }
+    
 }
