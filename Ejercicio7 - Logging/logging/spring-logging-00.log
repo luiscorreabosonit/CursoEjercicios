@@ -1,0 +1,3 @@
+2022-01-27 12:28:40,202 ERROR [http-nio-8080-exec-4] bosonit.practicas.ejercicios.controladores.Controlador : La url es: miaplicacion.com, la contraseña es: secret
+2022-01-27 12:28:40,965 ERROR [http-nio-8080-exec-5] bosonit.practicas.ejercicios.controladores.Controlador : La url es: miaplicacion.com, la contraseña es: secret
+2022-01-27 12:28:41,584 ERROR [http-nio-8080-exec-6] bosonit.practicas.ejercicios.controladores.Controlador : La url es: miaplicacion.com, la contraseña es: secret
