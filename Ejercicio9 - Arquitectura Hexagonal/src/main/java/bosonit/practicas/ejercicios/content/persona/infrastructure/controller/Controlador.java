@@ -38,18 +38,18 @@ public class Controlador {
     ResponseEntity buscarPersona(@PathVariable int id){
 
         log.info("Buscando persona con id: "+id);
-        try {
+//        try {
 
             Persona persona = servicioREST.buscarPorId(id);
             PersonaOutputDTO personaOutputDTO = modelMapper.map(persona, PersonaOutputDTO.class);
 
             log.info("Encontrada la persona con id: "+id);
             return ResponseEntity.status(HttpStatus.OK).body(personaOutputDTO);
-        }catch (RuntimeException e){
-            log.warn(e.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-
-        }
+//        }catch (RuntimeException e){
+//            log.warn(e.getMessage());
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+//
+//        }
 
     }
 
@@ -87,18 +87,18 @@ public class Controlador {
     ResponseEntity crearPersona(@RequestBody PersonaInputDTO personaDTO){
 
         log.info("Creando persona");
-        try {
+//        try {
 
             Persona persona = servicioREST.crearPersona(personaDTO);
 
             PersonaOutputDTO personaOutputDTO = modelMapper.map(persona, PersonaOutputDTO.class);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(personaOutputDTO);
-        }catch (RuntimeException e){
-            log.warn(e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-
-        }
+//        }catch (RuntimeException e){
+//            log.warn(e.getMessage());
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+//
+//        }
     }
 
 }
