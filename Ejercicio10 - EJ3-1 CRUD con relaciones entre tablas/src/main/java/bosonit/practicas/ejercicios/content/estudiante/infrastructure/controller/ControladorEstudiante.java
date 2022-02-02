@@ -112,4 +112,44 @@ public class ControladorEstudiante {
         }
     }
 
+    @PutMapping("/{id}")
+    ResponseEntity editarEstudiante(@PathVariable String id, @RequestBody EstudianteInputDTO estudianteInputDTO){
+
+        log.info("Editando estudiante con id: "+id);
+
+        try {
+
+            Estudiante estudiante = servicioEstudiante.editarEstudiante(estudianteInputDTO, id);
+
+            EstudianteOutputDTO estudianteOutputDTO = estudiante.aEstudianteDTO();
+
+            return ResponseEntity.status(HttpStatus.OK).body(estudianteOutputDTO);
+
+        }catch (RuntimeException e){
+            log.warn(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+
+        }
+
+    }
+
+    @DeleteMapping("/{id}")
+    ResponseEntity eliminarEstudiante(@PathVariable String id){
+
+        log.info("Eliminando estudiante con id: "+id);
+
+        try {
+
+            servicioEstudiante.eliminarEstudiante(id);
+
+            return ResponseEntity.status(HttpStatus.OK).body("Se ha eliminado el estudiante con ID: "+id);
+
+        }catch (RuntimeException e){
+            log.warn(e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+
+        }
+
+    }
+
 }
