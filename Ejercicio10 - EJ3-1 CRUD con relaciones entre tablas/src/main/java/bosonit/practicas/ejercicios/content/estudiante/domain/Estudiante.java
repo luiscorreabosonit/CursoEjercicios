@@ -33,7 +33,7 @@ public class Estudiante {
             })
     private String id_estudiante;
 
-    @OneToOne
+    @OneToOne(optional = false)
     private Persona persona;
 
     @NotNull
