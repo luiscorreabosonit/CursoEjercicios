@@ -10,4 +10,5 @@ import java.util.Optional;
 
 public interface ProfesoresRepository extends JpaRepository<Profesor, String> {
 
+    public Optional<Profesor> findByPersona(Persona persona);
 }

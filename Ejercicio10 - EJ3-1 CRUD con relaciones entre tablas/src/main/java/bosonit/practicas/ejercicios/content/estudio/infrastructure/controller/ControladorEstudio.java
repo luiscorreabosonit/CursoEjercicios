@@ -1,12 +1,20 @@
 package bosonit.practicas.ejercicios.content.estudio.infrastructure.controller;
 
+import bosonit.practicas.ejercicios.content.estudio.domain.estudio;
+import bosonit.practicas.ejercicios.content.estudio.infrastructure.controller.dto.input.estudioInputDTO;
+import bosonit.practicas.ejercicios.content.estudio.infrastructure.controller.dto.output.estudioOutputDTO;
 import bosonit.practicas.ejercicios.content.estudio.application.ServicioEstudio;
+import bosonit.practicas.ejercicios.content.estudio.domain.Estudio;
+import bosonit.practicas.ejercicios.content.estudio.infrastructure.controller.dto.input.EstudioInputDTO;
+import bosonit.practicas.ejercicios.content.estudio.infrastructure.controller.dto.output.EstudioOutputDTO;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/estudios")
@@ -16,39 +24,29 @@ public class ControladorEstudio {
     @Autowired
     ServicioEstudio servicioEstudio;
 
-    ModelMapper modelMapper = new ModelMapper();
+    @GetMapping("/{id}")
+    ResponseEntity buscarEstudio(@PathVariable String id){
 
-    @GetMapping("")
-    ResponseEntity prueba(){
+        log.info("Buscando estudio con id: "+id);
 
-        log.info("Hay conexion");
-        log.debug("Entra correctamente");
+        try {
 
-        return ResponseEntity.status(HttpStatus.OK).build();
+            Estudio estudio = servicioEstudio.buscarEstudio(id);
+
+            EstudioOutputDTO estudioOutputDTO = estudio.aEstudioDTO();
+
+            return ResponseEntity.status(HttpStatus.OK).body(estudioOutputDTO);
+
+        }catch (RuntimeException e){
+            log.warn(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+
+        }
 
     }
 
-//    @GetMapping("personas/{id}")
-//    ResponseEntity buscarPersona(@PathVariable int id){
-//
-//        log.info("Buscando persona con id: "+id);
-////        try {
-//
-//            Persona persona = servicioREST.buscarPorId(id);
-//            PersonaOutputDTO personaOutputDTO = modelMapper.map(persona, PersonaOutputDTO.class);
-//
-//            log.info("Encontrada la persona con id: "+id);
-//            return ResponseEntity.status(HttpStatus.OK).body(personaOutputDTO);
-////        }catch (RuntimeException e){
-////            log.warn(e.getMessage());
-////            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-////
-////        }
-//
-//    }
-//
-//    @GetMapping("personas/nombre/{nombre}")
-//    ResponseEntity buscarPersonaNombre(@PathVariable String nombre){
+//    @GetMapping("/nombre/{nombre}")
+//    ResponseEntity buscarEstudioNombre(@PathVariable String nombre){
 //
 //        log.info("Buscando personas con nombre: "+nombre);
 //        try {
@@ -62,37 +60,77 @@ public class ControladorEstudio {
 //        }
 //
 //    }
-//
-//    @GetMapping("personas")
-//    ResponseEntity devolverPersonas(){
-//
-//        log.info("Buscando todas las personas");
-//        List<Persona> personas = servicioREST.devolverPersonas();
-//        log.info("Cantidad de personas: "+personas.size());
-//
-//        List<PersonaOutputDTO> personasDTO = personas.stream()
-//                .map(persona -> modelMapper.map(persona, PersonaOutputDTO.class)).collect(Collectors.toList());
-//
-//        return ResponseEntity.status(HttpStatus.OK).body(personasDTO);
-//
-//    }
-//
-//    @PostMapping("personas")
-//    ResponseEntity crearPersona(@RequestBody PersonaInputDTO personaDTO){
-//
-//        log.info("Creando persona");
-////        try {
-//
-//            Persona persona = servicioREST.crearPersona(personaDTO);
-//
-//            PersonaOutputDTO personaOutputDTO = modelMapper.map(persona, PersonaOutputDTO.class);
-//
-//            return ResponseEntity.status(HttpStatus.CREATED).body(personaOutputDTO);
-////        }catch (RuntimeException e){
-////            log.warn(e.getMessage());
-////            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-////
-////        }
-//    }
+
+    @GetMapping("")
+    ResponseEntity devolverEstudios(){
+
+        log.info("Buscando todos los estudios");
+        List<Estudio> estudios = servicioEstudio.devolverEstudios();
+        log.info("Cantidad de estudios: "+estudios.size());
+
+        List<EstudioOutputDTO> estudioOutputDTOS = estudios.stream()
+                .map(Estudio::aEstudioDTO).collect(Collectors.toList());
+
+        return ResponseEntity.status(HttpStatus.OK).body(estudioOutputDTOS);
+
+    }
+
+    @PostMapping("")
+    ResponseEntity crearEstudio(@RequestBody EstudioInputDTO estudioInputDTO){
+
+        log.info("Creando estudio");
+        try {
+
+            Estudio estudio = servicioEstudio.crearEstudio(estudioInputDTO);
+
+            EstudioOutputDTO estudioOutputDTO = estudio.aEstudioDTO();
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(estudioOutputDTO);
+        }catch (RuntimeException e){
+            log.warn(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+
+        }
+    }
+
+    @PutMapping("/{id}")
+    ResponseEntity editarEstudio(@PathVariable String id, @RequestBody EstudioInputDTO estudioInputDTO){
+
+        log.info("Editando estudio con id: "+id);
+
+        try {
+
+            Estudio estudio = servicioEstudio.editarEstudio(estudioInputDTO, id);
+
+            EstudioOutputDTO estudioOutputDTO = estudio.aEstudioDTO();
+
+            return ResponseEntity.status(HttpStatus.OK).body(estudioOutputDTO);
+
+        }catch (RuntimeException e){
+            log.warn(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+
+        }
+
+    }
+
+    @DeleteMapping("/{id}")
+    ResponseEntity eliminarEstudio(@PathVariable String id){
+
+        log.info("Eliminando estudio con id: "+id);
+
+        try {
+
+            servicioEstudio.eliminarEstudio(id);
+
+            return ResponseEntity.status(HttpStatus.OK).body("Se ha eliminado el estudio con ID: "+id);
+
+        }catch (RuntimeException e){
+            log.warn(e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+
+        }
+
+    }
 
 }

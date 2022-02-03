@@ -6,6 +6,8 @@ import bosonit.practicas.ejercicios.content.estudiante.infrastructure.controller
 import bosonit.practicas.ejercicios.content.estudiante.infrastructure.repository.jpa.EstudiantesRepository;
 import bosonit.practicas.ejercicios.content.persona.application.ServicioPersona;
 import bosonit.practicas.ejercicios.content.persona.domain.Persona;
+import bosonit.practicas.ejercicios.content.profesor.application.ServicioProfesor;
+import bosonit.practicas.ejercicios.content.profesor.domain.Profesor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,9 @@ public class ServicioEstudiante {
 
     @Autowired
     ServicioPersona servicioPersona;
+
+    @Autowired
+    ServicioProfesor servicioProfesor;
 
     public Estudiante buscarEstudiante(String id){
 
@@ -36,11 +41,17 @@ public class ServicioEstudiante {
 
         }
 
-        Estudiante estudiante = new Estudiante(estudianteInputDTO, persona);
+        Profesor profesor = servicioProfesor.buscarProfesor(estudianteInputDTO.getProfesor());
+
+        Estudiante estudiante = new Estudiante(estudianteInputDTO, persona, profesor);
 
         repository.save(estudiante);
 
-        return estudiante;
+        servicioProfesor.añadirAlumno(profesor, estudiante);
+
+        Estudiante estudianteGuardado = repository.getById(estudiante.getId_estudiante());
+
+        return estudianteGuardado;
 
     }
 

@@ -13,15 +13,13 @@ import java.util.List;
 @Data
 public class EstudianteInputDTO {
 
-    private String id_estudiante;
-
     private int persona;
 
     private int num_hours_week;
 
     private String comentarios;
 
-//    private String profesor;
+    private String profesor;
 
     private String rama;
 

@@ -1,6 +1,13 @@
 package bosonit.practicas.ejercicios.content.estudio.domain;
 
+import bosonit.practicas.ejercicios.content.enums.Rama;
 import bosonit.practicas.ejercicios.content.estudiante.domain.Estudiante;
+import bosonit.practicas.ejercicios.content.estudiante.infrastructure.controller.dto.input.EstudianteInputDTO;
+import bosonit.practicas.ejercicios.content.estudiante.infrastructure.controller.dto.output.EstudianteOutputDTO;
+import bosonit.practicas.ejercicios.content.estudiante.infrastructure.controller.dto.output.EstudiantePersonaOutputDTO;
+import bosonit.practicas.ejercicios.content.estudio.infrastructure.controller.dto.input.EstudioInputDTO;
+import bosonit.practicas.ejercicios.content.estudio.infrastructure.controller.dto.output.EstudioOutputDTO;
+import bosonit.practicas.ejercicios.content.persona.domain.Persona;
 import bosonit.practicas.ejercicios.content.profesor.domain.Profesor;
 import bosonit.practicas.ejercicios.content.util.StringPrefixedSequenceIdGenerator;
 import lombok.Data;
@@ -10,6 +17,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Data
@@ -25,7 +33,7 @@ public class Estudio {
                     @org.hibernate.annotations.Parameter(name = StringPrefixedSequenceIdGenerator.VALUE_PREFIX_PARAMETER, value = "MAT"),
                     @org.hibernate.annotations.Parameter(name = StringPrefixedSequenceIdGenerator.NUMBER_FORMAT_PARAMETER, value = "%08d")
             })
-    private String id;
+    private String id_estudio;
 
     @ManyToMany
     private List<Estudiante> estudiantes;
@@ -41,5 +49,31 @@ public class Estudio {
     private LocalDateTime fechaInicio;
 
     private LocalDateTime fechaFin;
+
+    public Estudio(EstudioInputDTO estudioInputDTO, Profesor profesor){
+
+        this.comentarios = estudioInputDTO.getComentarios();
+        this.nombre = estudioInputDTO.getNombre();
+        this.profesor = profesor;
+        this.fechaInicio = estudioInputDTO.getFechaInicio();
+        this.fechaFin = estudioInputDTO.getFechaFin();
+
+    }
+
+    public EstudioOutputDTO aEstudioDTO(){
+
+        EstudioOutputDTO estudioOutputDTO = new EstudioOutputDTO();
+
+        if(this.nombre != null) estudioOutputDTO.setNombre(this.nombre);
+        if(this.comentarios != null) estudioOutputDTO.setComentarios(this.comentarios);
+        if(this.fechaInicio != null) estudioOutputDTO.setFechaInicio(this.fechaInicio);
+        if(this.fechaFin != null) estudioOutputDTO.setFechaFin(this.fechaFin);
+        if(this.profesor != null) estudioOutputDTO.setProfesor(this.profesor.getId_profesor());
+        if(this.estudiantes != null) estudioOutputDTO.setEstudiantes(this.estudiantes.stream().map(Estudiante::getId_estudiante).collect(Collectors.toList()));
+
+
+        return estudioOutputDTO;
+
+    }
 
 }

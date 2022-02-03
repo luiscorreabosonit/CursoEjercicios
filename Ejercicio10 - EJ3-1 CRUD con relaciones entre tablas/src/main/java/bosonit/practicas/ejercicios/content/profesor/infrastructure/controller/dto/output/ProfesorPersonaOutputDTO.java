@@ -1,17 +1,19 @@
-package bosonit.practicas.ejercicios.content.estudiante.infrastructure.controller.dto.output;
+package bosonit.practicas.ejercicios.content.profesor.infrastructure.controller.dto.output;
 
+import bosonit.practicas.ejercicios.content.estudiante.domain.Estudiante;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
-public class EstudiantePersonaOutputDTO {
+public class ProfesorPersonaOutputDTO {
 
-    private String id_estudiante;
-    private int num_hours_week;
+    private String id_profesor;
+    private int persona;
     private String comentarios;
     private String rama;
-    private String profesor;
+    private List<String> alumnos;
 
     private int idPersona;
     private String usuario;

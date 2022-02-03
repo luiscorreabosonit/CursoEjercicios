@@ -15,7 +15,7 @@ public class EstudianteOutputDTO {
 
     private String comentarios;
 
-//    private String profesor;
+    private String profesor;
 
     private String rama;
 

@@ -43,9 +43,9 @@ public class Estudiante {
     @Column(name = "comentarios")
     private String comentarios;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "id_profesor")
-//    private Profesor profesor;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_profesor")
+    private Profesor profesor;
 
     @Column(name = "rama")
     @Enumerated(value = EnumType.STRING)
@@ -54,7 +54,7 @@ public class Estudiante {
 //    @ManyToMany
 //    private List<Estudio> estudios;
 
-    public Estudiante(EstudianteInputDTO estudianteInputDTO, Persona persona){
+    public Estudiante(EstudianteInputDTO estudianteInputDTO, Persona persona, Profesor profesor){
 
         this.comentarios = estudianteInputDTO.getComentarios();
 
@@ -75,6 +75,8 @@ public class Estudiante {
 
         this.num_hours_week = estudianteInputDTO.getNum_hours_week();
 
+        this.profesor = profesor;
+
         this.persona = persona;
 
     }
@@ -85,9 +87,9 @@ public class Estudiante {
 
         if(this.id_estudiante != null) estudianteOutputDTO.setId_estudiante(this.id_estudiante);
         if(this.comentarios != null) estudianteOutputDTO.setComentarios(this.comentarios);
-        if(this.persona != null) estudianteOutputDTO.setPersona(this.persona.getId());
         if(this.rama != null) estudianteOutputDTO.setRama(this.rama.name());
         if(this.num_hours_week != 0) estudianteOutputDTO.setNum_hours_week(this.num_hours_week);
+        if(this.persona != null) estudianteOutputDTO.setPersona(this.persona.getId());
 
         return estudianteOutputDTO;
 
@@ -101,6 +103,7 @@ public class Estudiante {
         if(this.comentarios != null) estudiantePersonaOutputDTO.setComentarios(this.comentarios);
         if(this.rama != null) estudiantePersonaOutputDTO.setRama(this.rama.name());
         if(this.num_hours_week != 0) estudiantePersonaOutputDTO.setNum_hours_week(this.num_hours_week);
+        if(this.profesor != null) estudiantePersonaOutputDTO.setProfesor(this.profesor.getId_profesor());
 
 
         if(this.persona.getId() != 0) estudiantePersonaOutputDTO.setIdPersona(this.persona.getId());
