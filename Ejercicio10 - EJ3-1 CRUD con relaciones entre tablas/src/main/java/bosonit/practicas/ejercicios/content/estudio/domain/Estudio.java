@@ -1,16 +1,12 @@
 package bosonit.practicas.ejercicios.content.estudio.domain;
 
-import bosonit.practicas.ejercicios.content.enums.Rama;
 import bosonit.practicas.ejercicios.content.estudiante.domain.Estudiante;
-import bosonit.practicas.ejercicios.content.estudiante.infrastructure.controller.dto.input.EstudianteInputDTO;
-import bosonit.practicas.ejercicios.content.estudiante.infrastructure.controller.dto.output.EstudianteOutputDTO;
-import bosonit.practicas.ejercicios.content.estudiante.infrastructure.controller.dto.output.EstudiantePersonaOutputDTO;
 import bosonit.practicas.ejercicios.content.estudio.infrastructure.controller.dto.input.EstudioInputDTO;
 import bosonit.practicas.ejercicios.content.estudio.infrastructure.controller.dto.output.EstudioOutputDTO;
-import bosonit.practicas.ejercicios.content.persona.domain.Persona;
 import bosonit.practicas.ejercicios.content.profesor.domain.Profesor;
 import bosonit.practicas.ejercicios.content.util.StringPrefixedSequenceIdGenerator;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -21,6 +17,7 @@ import java.util.stream.Collectors;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class Estudio {
 
     @Id
@@ -64,13 +61,13 @@ public class Estudio {
 
         EstudioOutputDTO estudioOutputDTO = new EstudioOutputDTO();
 
+        if(this.id_estudio != null) estudioOutputDTO.setId_estudio(this.id_estudio);
         if(this.nombre != null) estudioOutputDTO.setNombre(this.nombre);
         if(this.comentarios != null) estudioOutputDTO.setComentarios(this.comentarios);
         if(this.fechaInicio != null) estudioOutputDTO.setFechaInicio(this.fechaInicio);
         if(this.fechaFin != null) estudioOutputDTO.setFechaFin(this.fechaFin);
         if(this.profesor != null) estudioOutputDTO.setProfesor(this.profesor.getId_profesor());
         if(this.estudiantes != null) estudioOutputDTO.setEstudiantes(this.estudiantes.stream().map(Estudiante::getId_estudiante).collect(Collectors.toList()));
-
 
         return estudioOutputDTO;
 

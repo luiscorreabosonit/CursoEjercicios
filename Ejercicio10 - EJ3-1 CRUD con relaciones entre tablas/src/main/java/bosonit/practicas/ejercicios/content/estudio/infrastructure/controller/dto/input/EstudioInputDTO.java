@@ -10,8 +10,6 @@ import java.util.List;
 @Data
 public class EstudioInputDTO {
 
-    private List<String> estudiantes;
-
     private String nombre;
 
     private String comentarios;

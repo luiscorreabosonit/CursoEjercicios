@@ -1,8 +1,5 @@
 package bosonit.practicas.ejercicios.content.estudio.infrastructure.controller;
 
-import bosonit.practicas.ejercicios.content.estudio.domain.estudio;
-import bosonit.practicas.ejercicios.content.estudio.infrastructure.controller.dto.input.estudioInputDTO;
-import bosonit.practicas.ejercicios.content.estudio.infrastructure.controller.dto.output.estudioOutputDTO;
 import bosonit.practicas.ejercicios.content.estudio.application.ServicioEstudio;
 import bosonit.practicas.ejercicios.content.estudio.domain.Estudio;
 import bosonit.practicas.ejercicios.content.estudio.infrastructure.controller.dto.input.EstudioInputDTO;
@@ -11,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -86,10 +84,14 @@ public class ControladorEstudio {
             EstudioOutputDTO estudioOutputDTO = estudio.aEstudioDTO();
 
             return ResponseEntity.status(HttpStatus.CREATED).body(estudioOutputDTO);
-        }catch (RuntimeException e){
+
+        } catch (TransactionSystemException e){
+            log.warn(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("La fecha inicio no puede ser nula");
+
+        } catch (RuntimeException e){
             log.warn(e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-
         }
     }
 

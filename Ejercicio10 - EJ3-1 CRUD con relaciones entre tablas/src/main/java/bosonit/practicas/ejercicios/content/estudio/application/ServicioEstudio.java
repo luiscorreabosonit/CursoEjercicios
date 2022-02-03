@@ -37,7 +37,9 @@ public class ServicioEstudio {
 
         repository.save(estudio);
 
-        return estudio;
+        Estudio estudioGuardado = repository.getById(estudio.getId_estudio());
+
+        return estudioGuardado;
 
     }
 
