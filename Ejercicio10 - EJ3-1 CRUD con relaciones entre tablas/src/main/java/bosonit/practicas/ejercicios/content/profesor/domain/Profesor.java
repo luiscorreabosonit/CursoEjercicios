@@ -51,9 +51,6 @@ public class Profesor {
     @OneToMany
     private List<Estudiante> alumnos;
 
-//    @OneToMany
-//    private List<Estudio> estudios;
-
     public Profesor(ProfesorInputDTO profesorInputDTO, Persona persona){
 
         this.comentarios = profesorInputDTO.getComentarios();

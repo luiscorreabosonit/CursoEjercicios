@@ -19,6 +19,6 @@ public class EstudianteOutputDTO {
 
     private String rama;
 
-//    private List<String> estudios;
+    private List<String> estudios;
 
 }

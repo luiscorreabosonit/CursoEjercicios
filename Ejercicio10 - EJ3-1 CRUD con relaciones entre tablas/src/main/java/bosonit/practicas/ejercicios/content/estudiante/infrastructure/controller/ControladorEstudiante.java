@@ -152,4 +152,41 @@ public class ControladorEstudiante {
 
     }
 
+    @PostMapping("/{id}/asignaturas")
+    ResponseEntity asignarAsignaturasAEstudiante(@PathVariable String id, @RequestBody EstudianteInputDTO estudianteInputDTO){
+
+        log.info("Asignando asiganturas al estudiante: "+id);
+        try {
+
+            Estudiante estudiante = servicioEstudiante.asignarAsignaturasAEstudiante(id, estudianteInputDTO);
+
+            EstudianteOutputDTO estudianteOutputDTO = estudiante.aEstudianteDTO();
+
+            return ResponseEntity.status(HttpStatus.OK).body(estudianteOutputDTO );
+        }catch (RuntimeException e){
+            log.warn(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+
+        }
+    }
+
+    @DeleteMapping("/{id}/asignaturas")
+    ResponseEntity desasignarAsignaturasAEstudiante(@PathVariable String id, @RequestBody EstudianteInputDTO estudianteInputDTO){
+
+        log.info("Asignando asiganturas al estudiante: "+id);
+
+        try {
+
+            Estudiante estudiante = servicioEstudiante.desasignarAsignaturasAEstudiante(id, estudianteInputDTO);
+
+            EstudianteOutputDTO estudianteOutputDTO = estudiante.aEstudianteDTO();
+
+            return ResponseEntity.status(HttpStatus.OK).body(estudianteOutputDTO );
+        }catch (RuntimeException e){
+            log.warn(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+
+        }
+    }
+
 }

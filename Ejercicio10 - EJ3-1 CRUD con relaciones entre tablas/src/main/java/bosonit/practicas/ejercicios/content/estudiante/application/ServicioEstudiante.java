@@ -4,16 +4,21 @@ import bosonit.practicas.ejercicios.content.enums.Rama;
 import bosonit.practicas.ejercicios.content.estudiante.domain.Estudiante;
 import bosonit.practicas.ejercicios.content.estudiante.infrastructure.controller.dto.input.EstudianteInputDTO;
 import bosonit.practicas.ejercicios.content.estudiante.infrastructure.repository.jpa.EstudiantesRepository;
+import bosonit.practicas.ejercicios.content.estudio.application.ServicioEstudio;
+import bosonit.practicas.ejercicios.content.estudio.domain.Estudio;
 import bosonit.practicas.ejercicios.content.persona.application.ServicioPersona;
 import bosonit.practicas.ejercicios.content.persona.domain.Persona;
 import bosonit.practicas.ejercicios.content.profesor.application.ServicioProfesor;
 import bosonit.practicas.ejercicios.content.profesor.domain.Profesor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class ServicioEstudiante {
 
     @Autowired
@@ -24,6 +29,9 @@ public class ServicioEstudiante {
 
     @Autowired
     ServicioProfesor servicioProfesor;
+
+    @Autowired
+    ServicioEstudio servicioEstudio;
 
     public Estudiante buscarEstudiante(String id){
 
@@ -93,6 +101,42 @@ public class ServicioEstudiante {
     public List<Estudiante> devolverEstudiantes(){
 
         return repository.findAll();
+
+    }
+
+    public Estudiante asignarAsignaturasAEstudiante(String idEstudiante, EstudianteInputDTO estudianteInputDTO){
+
+        Estudiante estudiante = repository.findById(idEstudiante).orElseThrow(() -> new RuntimeException("No se ha encontrado al estudiante: "+idEstudiante));
+
+        List<Estudio> estudios = estudianteInputDTO.getEstudios().stream().map(estudio -> servicioEstudio.buscarEstudio(estudio)).collect(Collectors.toList());
+
+        estudios.stream().forEach(estudio -> {
+            if(estudiante.getEstudios().contains(estudio))
+                throw new RuntimeException("El estudiante ya tiene el estudio con ID: "+estudio.getId_estudio());
+            estudiante.getEstudios().add(estudio);
+        });
+
+        Estudiante estudianteGuardado = repository.save(estudiante);
+
+        return estudianteGuardado ;
+
+    }
+
+    public Estudiante desasignarAsignaturasAEstudiante(String idEstudiante, EstudianteInputDTO estudianteInputDTO){
+
+        Estudiante estudiante = repository.findById(idEstudiante).orElseThrow(() -> new RuntimeException("No se ha encontrado al estudiante: "+idEstudiante));
+
+        List<Estudio> estudios = estudianteInputDTO.getEstudios().stream().map(estudio -> servicioEstudio.buscarEstudio(estudio)).collect(Collectors.toList());
+
+        estudios.stream().forEach(estudio -> {
+            if(!estudiante.getEstudios().contains(estudio))
+                throw new RuntimeException("El estudiante no tiene el estudio con ID: "+estudio.getId_estudio());
+            estudiante.getEstudios().remove(estudio);
+        });
+
+        Estudiante estudianteGuardado = repository.save(estudiante);
+
+        return estudianteGuardado ;
 
     }
 

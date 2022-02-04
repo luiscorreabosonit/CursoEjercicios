@@ -32,7 +32,7 @@ public class Estudio {
             })
     private String id_estudio;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "estudios")
     private List<Estudiante> estudiantes;
 
     private String nombre;

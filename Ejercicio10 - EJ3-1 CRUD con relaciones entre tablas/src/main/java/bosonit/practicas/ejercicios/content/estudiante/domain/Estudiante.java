@@ -15,6 +15,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Data
@@ -51,8 +52,8 @@ public class Estudiante {
     @Enumerated(value = EnumType.STRING)
     private Rama rama;
 
-//    @ManyToMany
-//    private List<Estudio> estudios;
+    @ManyToMany
+    private List<Estudio> estudios;
 
     public Estudiante(EstudianteInputDTO estudianteInputDTO, Persona persona, Profesor profesor){
 
@@ -90,6 +91,8 @@ public class Estudiante {
         if(this.rama != null) estudianteOutputDTO.setRama(this.rama.name());
         if(this.num_hours_week != 0) estudianteOutputDTO.setNum_hours_week(this.num_hours_week);
         if(this.persona != null) estudianteOutputDTO.setPersona(this.persona.getId());
+        if(this.estudios != null) estudianteOutputDTO.setEstudios(this.estudios.stream().map(Estudio::getId_estudio).collect(Collectors.toList()));
+
 
         return estudianteOutputDTO;
 
@@ -104,6 +107,7 @@ public class Estudiante {
         if(this.rama != null) estudiantePersonaOutputDTO.setRama(this.rama.name());
         if(this.num_hours_week != 0) estudiantePersonaOutputDTO.setNum_hours_week(this.num_hours_week);
         if(this.profesor != null) estudiantePersonaOutputDTO.setProfesor(this.profesor.getId_profesor());
+        if(this.estudios != null) estudiantePersonaOutputDTO.setEstudios(this.estudios.stream().map(Estudio::getId_estudio).collect(Collectors.toList()));
 
 
         if(this.persona.getId() != 0) estudiantePersonaOutputDTO.setIdPersona(this.persona.getId());

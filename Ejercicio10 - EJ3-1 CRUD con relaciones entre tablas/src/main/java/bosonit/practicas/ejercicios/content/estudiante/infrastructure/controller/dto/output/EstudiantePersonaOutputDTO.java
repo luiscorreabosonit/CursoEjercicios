@@ -3,6 +3,7 @@ package bosonit.practicas.ejercicios.content.estudiante.infrastructure.controlle
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class EstudiantePersonaOutputDTO {
@@ -12,6 +13,7 @@ public class EstudiantePersonaOutputDTO {
     private String comentarios;
     private String rama;
     private String profesor;
+    private List<String> estudios;
 
     private int idPersona;
     private String usuario;
